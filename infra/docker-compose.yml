@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: docmind-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-docmind}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-docmind_secure_pass_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-docmind_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - docmind_pgdata:/var/lib/postgresql/data
+      - ./init-pgvector.sql:/docker-entrypoint-initdb.d/init-pgvector.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docmind -d docmind_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: docmind-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - docmind_redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.api
+    container_name: docmind-api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DOCMIND_DATABASE_URL=postgresql://docmind:docmind_secure_pass_2026@postgres:5432/docmind_db
+      - DOCMIND_REDIS_URL=redis://redis:6379/0
+      - DOCMIND_JWT_SECRET=${DOCMIND_JWT_SECRET:-change-this-jwt-secret-in-production-2026}
+      - DOCMIND_MODEL_PROFILE=${DOCMIND_MODEL_PROFILE:-laptop}
+      - DOCMIND_ENABLE_CLOUD_MODELS=${DOCMIND_ENABLE_CLOUD_MODELS:-false}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+    volumes:
+      - ../data/storage:/app/data/storage
+      - ../data/models:/app/data/models
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.worker
+    container_name: docmind-worker
+    restart: always
+    environment:
+      - DOCMIND_DATABASE_URL=postgresql://docmind:docmind_secure_pass_2026@postgres:5432/docmind_db
+      - DOCMIND_REDIS_URL=redis://redis:6379/0
+      - DOCMIND_JWT_SECRET=${DOCMIND_JWT_SECRET:-change-this-jwt-secret-in-production-2026}
+      - DOCMIND_MODEL_PROFILE=${DOCMIND_MODEL_PROFILE:-laptop}
+    volumes:
+      - ../data/storage:/app/data/storage
+      - ../data/models:/app/data/models
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.web
+    container_name: docmind-web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - api
+
+volumes:
+  docmind_pgdata:
+  docmind_redisdata:

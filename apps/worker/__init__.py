@@ -1,0 +1,3 @@
+"""
+DocuMind Celery Worker Package
+"""

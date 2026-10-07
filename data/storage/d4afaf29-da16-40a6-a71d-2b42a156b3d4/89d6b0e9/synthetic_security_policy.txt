@@ -1,0 +1,11 @@
+GLOBAL OPERATIONS ENTERPRISE - INFORMATION SECURITY POLICY
+Version 3.2 | Effective Date: September 15, 2026
+
+SECTION 1: DOCUMENT ENCRYPTION AND PRIVATE CLOUD STORAGE
+All sensitive documents, including customer contracts and financial statements, must be stored in private, workspace-scoped storage. Storage at rest must employ AES-256 encryption. Under no circumstances may internal documents be transmitted to unapproved public cloud LLM endpoints without prior written authorization from the Chief Information Security Officer (CISO).
+
+SECTION 2: DATA RETENTION SCHEDULE
+Invoices and financial transactions must be retained for exactly seven (7) years to comply with statutory accounting audits. Routine commercial correspondence and drafts may be purged after twelve (12) months.
+
+SECTION 3: ACCESS CONTROL AND LEAST PRIVILEGE
+Access to workspace documents shall follow role-based access control (RBAC). Only designated Administrators and Editors may modify or delete documents. Viewers are restricted from restricted or privileged confidential repositories.

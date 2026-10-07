@@ -1,0 +1,3 @@
+"""
+DocuMind Shared Package
+"""

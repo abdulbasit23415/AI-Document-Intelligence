@@ -1,69 +1,243 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState, useEffect } from "react";
+import { 
+  User, Workspace, DocumentItem, api, setAuthToken, getAuthToken 
+} from "@/lib/api";
+import { Navbar } from "@/components/Navbar";
+import { Sidebar, NavView } from "@/components/Sidebar";
+import { DashboardView } from "@/components/DashboardView";
+import { DocumentLibraryView } from "@/components/DocumentLibraryView";
+import { ChatWorkspaceView } from "@/components/ChatWorkspaceView";
+import { IntelligenceHubView } from "@/components/IntelligenceHubView";
+import { TeamMembersView } from "@/components/TeamMembersView";
+import { AdminSettingsView } from "@/components/AdminSettingsView";
+import { DocumentDetailModal } from "@/components/DocumentDetailModal";
+import { AuthModal } from "@/components/AuthModal";
+
+export default function DocuMindApp() {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
+  const [documents, setDocuments] = useState<DocumentItem[]>([]);
+  const [currentView, setCurrentView] = useState<NavView>("dashboard");
+
+  // Inspection modal state
+  const [inspectDoc, setInspectDoc] = useState<DocumentItem | null>(null);
+  const [inspectTargetPage, setInspectTargetPage] = useState<number | null>(null);
+
+  // App settings state (Default to Light theme)
+  const [modelProfile, setModelProfile] = useState<string>("laptop");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+
+  // Sync theme with DOM and localStorage
+  useEffect(() => {
+    const savedTheme = typeof window !== "undefined" ? localStorage.getItem("docmind_theme") : null;
+    const isDark = savedTheme === "dark";
+    setIsDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, []);
+
+  const handleToggleTheme = () => {
+    setIsDarkMode((prev) => {
+      const nextTheme = !prev;
+      if (nextTheme) {
+        document.documentElement.classList.add("dark");
+        document.documentElement.setAttribute("data-theme", "dark");
+        try { localStorage.setItem("docmind_theme", "dark"); } catch (e) {}
+      } else {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.setAttribute("data-theme", "light");
+        try { localStorage.setItem("docmind_theme", "light"); } catch (e) {}
+      }
+      return nextTheme;
+    });
+  };
+
+  // Check auth session
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    setInitialLoading(true);
+    const token = getAuthToken();
+    if (token) {
+      try {
+        const user = await api.getMe();
+        setCurrentUser(user);
+        await loadWorkspaces();
+      } catch (err) {
+        console.error("Session expired or invalid:", err);
+        setAuthToken(null);
+        setCurrentUser(null);
+      }
+    }
+    setInitialLoading(false);
+  };
+
+  const loadWorkspaces = async () => {
+    try {
+      const wsList = await api.listWorkspaces();
+      setWorkspaces(wsList);
+      if (wsList.length > 0) {
+        const active = currentWorkspace || wsList[0];
+        setCurrentWorkspace(active);
+        await loadDocuments(active.id);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const loadDocuments = async (wsId: string) => {
+    try {
+      const docs = await api.listDocuments(wsId);
+      setDocuments(docs);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSelectWorkspace = (ws: Workspace) => {
+    setCurrentWorkspace(ws);
+    loadDocuments(ws.id);
+  };
+
+  const handleAuthSuccess = (user: User) => {
+    setCurrentUser(user);
+    loadWorkspaces();
+  };
+
+  const handleLogout = () => {
+    setAuthToken(null);
+    setCurrentUser(null);
+    setWorkspaces([]);
+    setCurrentWorkspace(null);
+    setDocuments([]);
+  };
+
+  const handleOpenDocById = (docId: string, pageNumber?: number | null) => {
+    const found = documents.find((d) => d.id === docId);
+    if (found) {
+      setInspectDoc(found);
+      setInspectTargetPage(pageNumber || 1);
+    }
+  };
+
+  if (initialLoading) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-background text-foreground text-xs font-semibold">
+        Initializing DocuMind AI Engine...
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return <AuthModal onSuccess={handleAuthSuccess} />;
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div
+      data-theme={isDarkMode ? "dark" : "light"}
+      className={`min-h-screen flex flex-col bg-background text-foreground transition-colors duration-150 ${isDarkMode ? "dark" : ""}`}
+    >
+      {/* Top Navbar */}
+      <Navbar
+        currentUser={currentUser}
+        workspaces={workspaces}
+        currentWorkspace={currentWorkspace}
+        onSelectWorkspace={handleSelectWorkspace}
+        onLogout={handleLogout}
+        modelProfile={modelProfile}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={handleToggleTheme}
+      />
+
+      {/* Main Workspace Layout */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Navigation Sidebar */}
+        <Sidebar
+          currentView={currentView}
+          onNavigate={(view) => setCurrentView(view)}
+          documentCount={documents.length}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+
+        {/* Central Content Area */}
+        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+          {currentView === "dashboard" && (
+            <DashboardView
+              workspace={currentWorkspace}
+              documents={documents}
+              onNavigateToUpload={() => setCurrentView("documents")}
+              onSelectDocument={(doc) => {
+                setInspectDoc(doc);
+                setInspectTargetPage(1);
+              }}
+              onRefresh={() => currentWorkspace && loadDocuments(currentWorkspace.id)}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          )}
+
+          {currentView === "documents" && (
+            <DocumentLibraryView
+              workspace={currentWorkspace}
+              documents={documents}
+              onRefresh={() => currentWorkspace && loadDocuments(currentWorkspace.id)}
+              onSelectDocument={(doc) => {
+                setInspectDoc(doc);
+                setInspectTargetPage(1);
+              }}
+            />
+          )}
+
+          {currentView === "chat" && (
+            <ChatWorkspaceView
+              workspace={currentWorkspace}
+              documents={documents}
+              onOpenDocumentModal={handleOpenDocById}
+            />
+          )}
+
+          {currentView === "intelligence" && (
+            <IntelligenceHubView
+              workspace={currentWorkspace}
+              documents={documents}
+              onOpenDocument={handleOpenDocById}
+            />
+          )}
+
+          {currentView === "team" && (
+            <TeamMembersView workspace={currentWorkspace} />
+          )}
+
+          {currentView === "admin" && (
+            <AdminSettingsView
+              workspace={currentWorkspace}
+              onRefreshStats={() => currentWorkspace && loadDocuments(currentWorkspace.id)}
+            />
+          )}
+        </main>
+      </div>
+
+      {/* Document Detail Modal */}
+      {inspectDoc && currentWorkspace && (
+        <DocumentDetailModal
+          workspaceId={currentWorkspace.id}
+          document={inspectDoc}
+          targetPage={inspectTargetPage}
+          onClose={() => {
+            setInspectDoc(null);
+            setInspectTargetPage(null);
+          }}
+        />
+      )}
     </div>
   );
 }
