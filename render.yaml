@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: documind-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: MODEL_PROFILE
+        value: laptop
+      - key: DATABASE_URL
+        value: sqlite:///./data/docmind.db
+      - key: SECRET_KEY
+        generateValue: true

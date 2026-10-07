@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DocuMind — Enterprise AI Document Intelligence Platform
 
 **DocuMind** is a complete, production-ready, local-first AI Document Intelligence platform designed for enterprise organizations to upload, parse, OCR, search, analyze, and chat with complex documents (contracts, invoices, policies, manuals, and scanned records).
@@ -159,10 +158,18 @@ Measured results:
 
 ---
 
-## 8. License
+## 8. Free Cloud Deployment (Render & Vercel)
+
+DocuMind is pre-configured for **100% free cloud deployment**:
+- **Backend (Render Free Web Service)**: Runs FastAPI with Python/Docker, pre-configured with `render.yaml` and `Dockerfile`.
+- **Frontend (Vercel Free Hobby Tier)**: Runs Next.js 16 with zero configuration, connecting securely to Render via `NEXT_PUBLIC_API_URL`.
+
+See the step-by-step walkthrough in [DEPLOYMENT.md](file:///docs/DEPLOYMENT.md).
+
+---
+
+## 9. License
 
 Open-source and free for commercial and private enterprise document intelligence.
-=======
-# AI-Document-Intelligence
-DocuMind
->>>>>>> 20c0251d656e8804656ccc9bbd9f3bf239c350ec
+
+

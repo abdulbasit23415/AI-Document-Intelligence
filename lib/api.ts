@@ -2,7 +2,13 @@
  * DocuMind API Client
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+function getApiBase(): string {
+  const url = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+  const trimmed = url.replace(/\/+$/, "");
+  return trimmed.endsWith("/api/v1") ? trimmed : `${trimmed}/api/v1`;
+}
+
+const API_BASE = getApiBase();
 
 export interface User {
   id: string;
