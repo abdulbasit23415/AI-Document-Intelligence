@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DocuMind — Enterprise AI Document Intelligence Platform
 
 **DocuMind** is a complete, production-ready, local-first AI Document Intelligence platform designed for enterprise organizations to upload, parse, OCR, search, analyze, and chat with complex documents (contracts, invoices, policies, manuals, and scanned records).
@@ -161,3 +162,7 @@ Measured results:
 ## 8. License
 
 Open-source and free for commercial and private enterprise document intelligence.
+=======
+# AI-Document-Intelligence
+DocuMind
+>>>>>>> 20c0251d656e8804656ccc9bbd9f3bf239c350ec
