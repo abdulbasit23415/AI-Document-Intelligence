@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { User, Workspace } from "@/lib/api";
 import { 
-  FileText, Shield, Cpu, LogOut, ChevronDown, Check, Sun, Moon, Database 
+  FileText, Shield, Cpu, LogOut, ChevronDown, Check, Sun, Moon, Database, Menu, X 
 } from "lucide-react";
 
 interface NavbarProps {
@@ -15,6 +15,8 @@ interface NavbarProps {
   modelProfile: string;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
+  isMobileMenuOpen?: boolean;
+  onToggleMobileMenu?: () => void;
 }
 
 export function Navbar({
@@ -26,22 +28,36 @@ export function Navbar({
   modelProfile,
   isDarkMode,
   onToggleDarkMode,
+  isMobileMenuOpen = false,
+  onToggleMobileMenu,
 }: NavbarProps) {
   const [wsDropdownOpen, setWsDropdownOpen] = useState(false);
 
   return (
-    <header className="h-14 border-b border-border bg-card px-5 flex items-center justify-between sticky top-0 z-40 transition-colors">
-      <div className="flex items-center space-x-5">
+    <header className="h-14 border-b border-border bg-card px-3 sm:px-5 flex items-center justify-between sticky top-0 z-40 transition-colors">
+      <div className="flex items-center space-x-2 sm:space-x-4">
+        {/* Mobile menu toggle */}
+        {onToggleMobileMenu && (
+          <button
+            type="button"
+            onClick={onToggleMobileMenu}
+            className="md:hidden p-1.5 rounded border border-border bg-card hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          >
+            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        )}
+
         {/* Brand identity */}
-        <div className="flex items-center space-x-2.5">
-          <div className="h-7 w-7 rounded border border-border bg-foreground text-background flex items-center justify-center font-bold text-xs tracking-wider">
+        <div className="flex items-center space-x-2">
+          <div className="h-7 w-7 rounded border border-border bg-foreground text-background flex items-center justify-center font-bold text-xs tracking-wider shrink-0">
             DM
           </div>
-          <div className="flex items-baseline space-x-2">
+          <div className="flex items-baseline space-x-1.5">
             <span className="font-semibold text-sm tracking-tight text-foreground">
               DocuMind
             </span>
-            <span className="text-[10px] font-mono uppercase text-muted-foreground tracking-wider">
+            <span className="text-[10px] font-mono uppercase text-muted-foreground tracking-wider hidden xs:inline">
               v1.0
             </span>
           </div>
@@ -54,11 +70,10 @@ export function Navbar({
           <div className="relative">
             <button
               onClick={() => setWsDropdownOpen(!wsDropdownOpen)}
-              className="flex items-center space-x-2 px-2.5 py-1.5 rounded border border-border bg-muted/40 hover:bg-muted/70 transition-colors text-xs font-medium text-foreground"
+              className="flex items-center space-x-1.5 px-2 py-1.5 rounded border border-border bg-muted/40 hover:bg-muted/70 transition-colors text-xs font-medium text-foreground"
             >
-              <Database className="h-3.5 w-3.5 text-muted-foreground" />
-              <span className="max-w-[160px] truncate">{currentWorkspace.name}</span>
-              <ChevronDown className="h-3 w-3 text-muted-foreground" />
+              <Database className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <span className="max-w-[90px] xs:max-w-[130px] sm:max-w-[170px] truncate">{currentWorkspace.name}</span>
             </button>
 
             {wsDropdownOpen && (

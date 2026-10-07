@@ -30,6 +30,7 @@ export default function DocuMindApp() {
   const [modelProfile, setModelProfile] = useState<string>("laptop");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Sync theme with DOM and localStorage
   useEffect(() => {
@@ -159,6 +160,8 @@ export default function DocuMindApp() {
         modelProfile={modelProfile}
         isDarkMode={isDarkMode}
         onToggleDarkMode={handleToggleTheme}
+        isMobileMenuOpen={isMobileMenuOpen}
+        onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
 
       {/* Main Workspace Layout */}
@@ -166,12 +169,17 @@ export default function DocuMindApp() {
         {/* Left Navigation Sidebar */}
         <Sidebar
           currentView={currentView}
-          onNavigate={(view) => setCurrentView(view)}
+          onNavigate={(view) => {
+            setCurrentView(view);
+            setIsMobileMenuOpen(false);
+          }}
           documentCount={documents.length}
+          isOpenMobile={isMobileMenuOpen}
+          onCloseMobile={() => setIsMobileMenuOpen(false)}
         />
 
         {/* Central Content Area */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-8">
           {currentView === "dashboard" && (
             <DashboardView
               workspace={currentWorkspace}

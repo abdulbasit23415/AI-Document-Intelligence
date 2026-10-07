@@ -91,7 +91,7 @@ export function IntelligenceHubView({
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center space-x-1.5 p-1 rounded border border-border bg-muted/30 text-xs font-medium w-fit">
+      <div className="flex items-center space-x-1.5 p-1 rounded border border-border bg-muted/30 text-xs font-medium w-full sm:w-fit overflow-x-auto pb-1 sm:pb-1 scrollbar-none">
         {[
           { id: "contract", label: "Contract Extraction", icon: FileCheck },
           { id: "invoice", label: "Invoice Processing", icon: FileText },
@@ -108,7 +108,7 @@ export function IntelligenceHubView({
                 setActiveTab(tab.id as any);
                 setResultData(null);
               }}
-              className={`flex items-center space-x-2 px-3 py-1.5 rounded transition-colors duration-150 ${
+              className={`flex items-center space-x-2 px-3 py-1.5 rounded transition-colors duration-150 shrink-0 cursor-pointer ${
                 isActive
                   ? "bg-foreground text-background font-semibold"
                   : "text-muted-foreground hover:text-foreground"
@@ -122,7 +122,7 @@ export function IntelligenceHubView({
       </div>
 
       {/* Controls Bar */}
-      <div className="p-4 rounded border border-border bg-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-3.5 sm:p-4 rounded border border-border bg-card flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="space-y-1">
             <label className="text-[11px] font-semibold text-muted-foreground">
@@ -131,7 +131,7 @@ export function IntelligenceHubView({
             <select
               value={selectedDocId}
               onChange={(e) => setSelectedDocId(e.target.value)}
-              className="px-2.5 py-1.5 rounded border border-border bg-muted/30 text-xs text-foreground focus:outline-none"
+              className="w-full sm:w-auto px-2.5 py-1.5 rounded border border-border bg-muted/30 text-xs text-foreground focus:outline-none"
             >
               {documents.map((d) => (
                 <option key={d.id} value={d.id}>
@@ -147,7 +147,7 @@ export function IntelligenceHubView({
               <select
                 value={selectedDocBId}
                 onChange={(e) => setSelectedDocBId(e.target.value)}
-                className="px-2.5 py-1.5 rounded border border-border bg-muted/30 text-xs text-foreground focus:outline-none"
+                className="w-full sm:w-auto px-2.5 py-1.5 rounded border border-border bg-muted/30 text-xs text-foreground focus:outline-none"
               >
                 {documents.map((d) => (
                   <option key={d.id} value={d.id}>
@@ -163,7 +163,7 @@ export function IntelligenceHubView({
           type="button"
           onClick={handleRunIntelligence}
           disabled={loading || !selectedDocId}
-          className="flex items-center justify-center space-x-2 px-4 py-1.5 rounded border border-primary bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 disabled:opacity-40 transition-opacity duration-150"
+          className="w-full md:w-auto flex items-center justify-center space-x-2 px-4 py-2 sm:py-1.5 rounded border border-primary bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 disabled:opacity-40 transition-opacity duration-150 cursor-pointer"
         >
           <Sparkles className="h-3.5 w-3.5" />
           <span>{loading ? "Analyzing Document..." : "Execute Intelligence Engine"}</span>

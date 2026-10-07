@@ -97,14 +97,14 @@ export function TeamMembersView({ workspace }: TeamMembersProps) {
       </form>
 
       {/* Members Table */}
-      <div className="rounded border border-border bg-card overflow-hidden">
+      <div className="rounded border border-border bg-card overflow-x-auto">
         <table className="w-full text-left text-xs">
-          <thead className="bg-muted/40 border-b border-border text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
+          <thead className="bg-muted/40 border-b border-border text-[10px] sm:text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
             <tr>
-              <th className="py-2.5 px-4">Member</th>
-              <th className="py-2.5 px-4">Email</th>
-              <th className="py-2.5 px-4">Assigned Role</th>
-              <th className="py-2.5 px-4">Added Date</th>
+              <th className="py-2.5 px-3 sm:px-4">Member</th>
+              <th className="py-2.5 px-3 sm:px-4">Email</th>
+              <th className="py-2.5 px-3 sm:px-4">Assigned Role</th>
+              <th className="py-2.5 px-3 sm:px-4 hidden sm:table-cell">Added Date</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">

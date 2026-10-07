@@ -159,7 +159,7 @@ export function DocumentLibraryView({
       )}
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 rounded border border-border bg-card">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded border border-border bg-card">
         <div className="relative w-full sm:w-72">
           <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-3 top-2.5" />
           <input
@@ -171,7 +171,7 @@ export function DocumentLibraryView({
           />
         </div>
 
-        <div className="flex items-center space-x-1 w-full sm:w-auto overflow-x-auto">
+        <div className="flex items-center space-x-1 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 scrollbar-none shrink-0">
           {[
             { id: "all", label: "All" },
             { id: "ready", label: "Ready" },
@@ -183,7 +183,7 @@ export function DocumentLibraryView({
             <button
               key={st.id}
               onClick={() => setStatusFilter(st.id)}
-              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+              className={`px-2.5 py-1 rounded text-xs font-medium transition-colors shrink-0 cursor-pointer ${
                 statusFilter === st.id
                   ? "bg-foreground text-background font-semibold"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -198,7 +198,7 @@ export function DocumentLibraryView({
       {/* Document Records Table */}
       <div className="rounded border border-border bg-card overflow-hidden">
         {filteredDocs.length === 0 ? (
-          <div className="p-12 text-center text-muted-foreground">
+          <div className="p-10 sm:p-12 text-center text-muted-foreground">
             <FileText className="h-8 w-8 mx-auto text-muted-foreground/30 mb-2" />
             <p className="text-xs">No documents match the current criteria.</p>
           </div>
@@ -207,41 +207,41 @@ export function DocumentLibraryView({
             <table className="w-full text-left text-xs">
               <thead className="bg-muted/30 border-b border-border text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
                 <tr>
-                  <th className="py-2.5 px-4 font-medium">Document Name</th>
-                  <th className="py-2.5 px-4 font-medium">Size</th>
-                  <th className="py-2.5 px-4 font-medium">Pages</th>
-                  <th className="py-2.5 px-4 font-medium">Status</th>
-                  <th className="py-2.5 px-4 font-medium">Version</th>
-                  <th className="py-2.5 px-4 font-medium">Uploaded</th>
-                  <th className="py-2.5 px-4 text-right font-medium">Actions</th>
+                  <th className="py-2.5 px-3 sm:px-4 font-medium">Document Name</th>
+                  <th className="py-2.5 px-3 sm:px-4 font-medium hidden sm:table-cell">Size</th>
+                  <th className="py-2.5 px-3 sm:px-4 font-medium hidden sm:table-cell">Pages</th>
+                  <th className="py-2.5 px-3 sm:px-4 font-medium">Status</th>
+                  <th className="py-2.5 px-3 sm:px-4 font-medium hidden md:table-cell">Version</th>
+                  <th className="py-2.5 px-3 sm:px-4 font-medium hidden lg:table-cell">Uploaded</th>
+                  <th className="py-2.5 px-3 sm:px-4 text-right font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border font-mono text-[11px]">
                 {filteredDocs.map((doc) => (
                   <tr key={doc.id} className="hover:bg-muted/20 transition-colors">
-                    <td className="py-3 px-4 font-sans font-medium text-foreground">
-                      <div className="flex items-center space-x-2.5">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 font-sans font-medium text-foreground">
+                      <div className="flex items-center space-x-2 sm:space-x-2.5 min-w-0">
                         <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
                         <button
                           onClick={() => onSelectDocument(doc)}
-                          className="hover:underline text-left truncate max-w-xs text-xs"
+                          className="hover:underline text-left truncate max-w-[150px] xs:max-w-[200px] sm:max-w-xs text-xs cursor-pointer"
                         >
                           {doc.original_filename}
                         </button>
                       </div>
                     </td>
 
-                    <td className="py-3 px-4 text-muted-foreground">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-muted-foreground hidden sm:table-cell">
                       {(doc.file_size_bytes / 1024).toFixed(1)} KB
                     </td>
 
-                    <td className="py-3 px-4 text-muted-foreground font-sans">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-muted-foreground font-sans hidden sm:table-cell">
                       {doc.page_count ? `${doc.page_count} pgs` : "Text"}
                     </td>
 
-                    <td className="py-3 px-4 font-sans">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 font-sans">
                       <span
-                        className={`text-[10px] uppercase font-semibold px-2 py-0.5 rounded border inline-flex items-center gap-1 ${
+                        className={`text-[10px] uppercase font-semibold px-1.5 sm:px-2 py-0.5 rounded border inline-flex items-center gap-1 ${
                           doc.status === "ready"
                             ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
                             : doc.status === "failed"
@@ -249,24 +249,24 @@ export function DocumentLibraryView({
                             : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
                         }`}
                       >
-                        {doc.status === "ready" && <CheckCircle2 className="h-3 w-3" />}
-                        {doc.status === "failed" && <AlertCircle className="h-3 w-3" />}
+                        {doc.status === "ready" && <CheckCircle2 className="h-3 w-3 shrink-0" />}
+                        {doc.status === "failed" && <AlertCircle className="h-3 w-3 shrink-0" />}
                         {["parsing", "ocr", "chunking", "embedding"].includes(doc.status) && (
-                          <Clock className="h-3 w-3" />
+                          <Clock className="h-3 w-3 shrink-0" />
                         )}
                         <span>{doc.status}</span>
                       </span>
                     </td>
 
-                    <td className="py-3 px-4 text-muted-foreground">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-muted-foreground hidden md:table-cell">
                       v{doc.version}
                     </td>
 
-                    <td className="py-3 px-4 text-muted-foreground font-sans">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-muted-foreground font-sans hidden lg:table-cell">
                       {new Date(doc.created_at).toLocaleDateString()}
                     </td>
 
-                    <td className="py-3 px-4 text-right font-sans">
+                    <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-right font-sans">
                       <div className="flex items-center justify-end space-x-1">
                         <button
                           onClick={() => onSelectDocument(doc)}

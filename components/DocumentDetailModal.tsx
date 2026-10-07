@@ -41,17 +41,17 @@ export function DocumentDetailModal({
   const downloadUrl = api.getDocumentDownloadUrl(workspaceId, document.id);
 
   return (
-    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-150">
-      <div className="bg-card border border-border rounded-lg w-full max-w-5xl h-[88vh] flex flex-col shadow-lg overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 md:p-6 animate-in fade-in duration-150">
+      <div className="bg-card border border-border rounded-lg w-full max-w-5xl h-[94vh] sm:h-[88vh] flex flex-col shadow-lg overflow-hidden">
         {/* Modal Header */}
-        <div className="px-5 py-3.5 border-b border-border flex items-center justify-between shrink-0 bg-card">
-          <div className="flex items-center space-x-3 min-w-0">
-            <div className="h-8 w-8 rounded border border-border bg-muted flex items-center justify-center shrink-0 text-foreground">
-              <FileText className="h-4 w-4" />
+        <div className="px-3.5 sm:px-5 py-2.5 sm:py-3.5 border-b border-border flex items-center justify-between shrink-0 bg-card gap-2">
+          <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+            <div className="h-7 w-7 sm:h-8 sm:w-8 rounded border border-border bg-muted flex items-center justify-center shrink-0 text-foreground">
+              <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-xs font-semibold text-foreground truncate">{document.original_filename}</h2>
-              <div className="text-[10px] font-mono text-muted-foreground flex items-center gap-2 mt-0.5">
+              <h2 className="text-xs font-semibold text-foreground truncate max-w-[200px] sm:max-w-md">{document.original_filename}</h2>
+              <div className="text-[10px] font-mono text-muted-foreground flex items-center gap-1.5 sm:gap-2 mt-0.5 truncate">
                 <span>v{document.version}</span>
                 <span>•</span>
                 <span>{(document.file_size_bytes / 1024).toFixed(1)} KB</span>
@@ -60,7 +60,7 @@ export function DocumentDetailModal({
                   {document.status}
                 </span>
                 {targetPage && (
-                  <span className="bg-muted text-foreground px-1.5 py-0.2 rounded text-[10px] border border-border">
+                  <span className="bg-muted text-foreground px-1.5 py-0.2 rounded text-[10px] border border-border hidden xs:inline">
                     Viewing Page {targetPage}
                   </span>
                 )}
@@ -68,7 +68,7 @@ export function DocumentDetailModal({
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
             <a
               href={downloadUrl}
               target="_blank"
@@ -76,25 +76,25 @@ export function DocumentDetailModal({
               className="p-1.5 rounded border border-border hover:bg-muted text-muted-foreground hover:text-foreground transition-colors duration-150"
               title="Download Original File"
             >
-              <Download className="h-4 w-4" />
+              <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </a>
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 rounded border border-border hover:bg-muted text-muted-foreground hover:text-foreground transition-colors duration-150"
+              className="p-1.5 rounded border border-border hover:bg-muted text-muted-foreground hover:text-foreground transition-colors duration-150 cursor-pointer"
               title="Close Modal"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </button>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="px-5 border-b border-border flex items-center space-x-5 shrink-0 bg-muted/20 text-xs font-medium">
+        <div className="px-3.5 sm:px-5 border-b border-border flex items-center space-x-4 sm:space-x-6 shrink-0 bg-muted/20 text-xs font-medium overflow-x-auto whitespace-nowrap scrollbar-none">
           <button
             type="button"
             onClick={() => setActiveTab("preview")}
-            className={`py-2.5 border-b-2 transition-colors duration-150 ${
+            className={`py-2.5 border-b-2 transition-colors duration-150 shrink-0 cursor-pointer ${
               activeTab === "preview"
                 ? "border-foreground text-foreground font-semibold"
                 : "border-transparent text-muted-foreground hover:text-foreground"
@@ -105,7 +105,7 @@ export function DocumentDetailModal({
           <button
             type="button"
             onClick={() => setActiveTab("chunks")}
-            className={`py-2.5 border-b-2 transition-colors duration-150 ${
+            className={`py-2.5 border-b-2 transition-colors duration-150 shrink-0 cursor-pointer ${
               activeTab === "chunks"
                 ? "border-foreground text-foreground font-semibold"
                 : "border-transparent text-muted-foreground hover:text-foreground"
@@ -116,7 +116,7 @@ export function DocumentDetailModal({
           <button
             type="button"
             onClick={() => setActiveTab("metadata")}
-            className={`py-2.5 border-b-2 transition-colors duration-150 ${
+            className={`py-2.5 border-b-2 transition-colors duration-150 shrink-0 cursor-pointer ${
               activeTab === "metadata"
                 ? "border-foreground text-foreground font-semibold"
                 : "border-transparent text-muted-foreground hover:text-foreground"
@@ -127,7 +127,7 @@ export function DocumentDetailModal({
         </div>
 
         {/* Tab Body */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-5">
           {loading ? (
             <div className="h-full flex items-center justify-center text-xs font-mono text-muted-foreground">
               Loading document data...
