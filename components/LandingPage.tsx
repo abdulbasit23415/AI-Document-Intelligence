@@ -1405,7 +1405,7 @@ export function LandingPage({
           </div>
 
           <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800/80 text-center text-[11px] text-slate-400">
-            © {new Date().getFullYear()} DocuMind / OrbitOperations. 100% Local-First. Zero Data Leaks. Built with Next.js 16, FastAPI, PyMuPDF, pgvector, and Tesseract OCR.
+            © 2026 DocuMind / OrbitOperations. 100% Local-First. Zero Data Leaks. Built with Next.js 16, FastAPI, PyMuPDF, pgvector, and Tesseract OCR.
           </div>
         </div>
       </footer>
