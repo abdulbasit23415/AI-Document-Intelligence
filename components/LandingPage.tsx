@@ -1,32 +1,32 @@
 "use client";
 
 import React, { useState } from "react";
-import { 
-  Sparkles, 
-  ArrowRight, 
-  Layers, 
-  FileText, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Zap, 
-  Cpu, 
-  Eye, 
-  Lock, 
-  Database, 
-  ExternalLink, 
-  ChevronRight, 
-  ChevronDown, 
-  Play, 
-  Check, 
-  Menu, 
-  X, 
-  Server, 
-  Search, 
-  Sliders, 
-  FileCheck, 
-  Activity, 
-  Terminal, 
-  Sun, 
+import {
+  Sparkles,
+  ArrowRight,
+  Layers,
+  FileText,
+  CheckCircle2,
+  ShieldCheck,
+  Zap,
+  Cpu,
+  Eye,
+  Lock,
+  Database,
+  ExternalLink,
+  ChevronRight,
+  ChevronDown,
+  Play,
+  Check,
+  Menu,
+  X,
+  Server,
+  Search,
+  Sliders,
+  FileCheck,
+  Activity,
+  Terminal,
+  Sun,
   Moon,
   Copy
 } from "lucide-react";
@@ -49,7 +49,6 @@ export function LandingPage({
   onEnterWorkspace,
 }: LandingPageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [headlineVariation, setHeadlineVariation] = useState<"project" | "reference">("project");
   const [activeInteractiveTab, setActiveInteractiveTab] = useState<number>(0);
   const [activeCitationHighlight, setActiveCitationHighlight] = useState<number | null>(null);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
@@ -237,24 +236,24 @@ export function LandingPage({
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#070b12] text-slate-900 dark:text-slate-100 selection:bg-blue-500 selection:text-white font-sans transition-colors duration-200">
-      
+
       {/* =========================================================================
           TOP NAVIGATION BAR (Exact match to reference style)
           ========================================================================= */}
       <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/90 dark:bg-[#070b12]/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-          
+
           {/* Left: Brand Logo & Copilot Pill Badge */}
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 shrink-0">
               <Layers className="h-5 w-5" />
             </div>
-            
+
             <div className="flex items-center gap-2.5">
               <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                Orbit<span className="text-blue-600 dark:text-blue-500">Operations</span>
+                AI<span className="text-blue-600 dark:text-blue-500">Doc</span><span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">Chat</span>
               </span>
-              
+
               {/* Reference Style Pill Badge */}
               <span className="hidden xs:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200/90 dark:border-blue-800/80">
                 COPILOT V2.4
@@ -264,32 +263,32 @@ export function LandingPage({
 
           {/* Center Navigation Links (Desktop) */}
           <nav className="hidden md:flex items-center gap-8 text-[14px] font-medium text-slate-600 dark:text-slate-300">
-            <a 
-              href="#features" 
+            <a
+              href="#features"
               className="hover:text-blue-600 dark:hover:text-white transition-colors"
             >
               Features
             </a>
-            <a 
-              href="#pipeline" 
+            <a
+              href="#pipeline"
               className="hover:text-blue-600 dark:hover:text-white transition-colors"
             >
               Live Pipeline
             </a>
-            <a 
-              href="#why-documind" 
+            <a
+              href="#why-documind"
               className="hover:text-blue-600 dark:hover:text-white transition-colors"
             >
               Why OrbitOS
             </a>
-            <a 
-              href="#pricing" 
+            <a
+              href="#pricing"
               className="hover:text-blue-600 dark:hover:text-white transition-colors"
             >
               Pricing
             </a>
-            <a 
-              href="#demo-preview" 
+            <a
+              href="#demo-preview"
               className="hover:text-blue-600 dark:hover:text-white transition-colors flex items-center gap-1"
             >
               Live App
@@ -351,29 +350,29 @@ export function LandingPage({
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#070b12] px-4 pt-3 pb-6 space-y-3 shadow-xl">
-            <a 
-              href="#features" 
+            <a
+              href="#features"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               Features
             </a>
-            <a 
-              href="#pipeline" 
+            <a
+              href="#pipeline"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               Live Pipeline
             </a>
-            <a 
-              href="#why-documind" 
+            <a
+              href="#why-documind"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               Why OrbitOS / DocuMind
             </a>
-            <a 
-              href="#pricing" 
+            <a
+              href="#pricing"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
@@ -408,12 +407,12 @@ export function LandingPage({
           HERO SECTION (Recreating image structure & typography)
           ========================================================================= */}
       <section className="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
-        
+
         {/* Soft Dreamy Ambient Top Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[480px] bg-gradient-to-b from-blue-400/15 via-indigo-300/10 to-transparent blur-3xl pointer-events-none -z-10" />
 
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          
+
           {/* Top Announcement Pill Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer group mb-8">
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-xs">
@@ -426,62 +425,20 @@ export function LandingPage({
             <ChevronRight className="h-3.5 w-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
           </div>
 
-          {/* Interactive Toggle for Exact Screenshot Headline vs DocuMind Headline */}
-          <div className="flex items-center justify-center gap-2 mb-6 text-xs text-slate-500 dark:text-slate-400">
-            <button
-              onClick={() => setHeadlineVariation("reference")}
-              className={`px-3 py-1 rounded-full border transition-all ${
-                headlineVariation === "reference"
-                  ? "border-blue-500 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 font-semibold"
-                  : "border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              Exact Image Text
-            </button>
-            <button
-              onClick={() => setHeadlineVariation("project")}
-              className={`px-3 py-1 rounded-full border transition-all ${
-                headlineVariation === "project"
-                  ? "border-blue-500 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 font-semibold"
-                  : "border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              Project Tailored Text
-            </button>
-          </div>
-
           {/* Main Giant Headline */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7.5xl font-black tracking-tight leading-[1.08] text-slate-900 dark:text-white">
-            {headlineVariation === "reference" ? (
-              <>
-                Where Customer Work
-                <br />
-                Meets
-                <br />
-                <span className="text-blue-600 dark:text-blue-500">Autonomous AI</span>
-                <br />
-                <span className="text-blue-600 dark:text-blue-500">Operations</span>
-              </>
-            ) : (
-              <>
-                Where Enterprise Documents
-                <br />
-                Meets
-                <br />
-                <span className="text-blue-600 dark:text-blue-500">Autonomous AI</span>
-                <br />
-                <span className="text-blue-600 dark:text-blue-500">Document Intelligence</span>
-              </>
-            )}
+            Where Enterprise Documents
+            <br />
+            Meets
+            <br />
+            <span className="text-blue-600 dark:text-blue-500">Autonomous AI</span>
+            <br />
+            <span className="text-blue-600 dark:text-blue-500">Document Intelligence</span>
           </h1>
 
           {/* Subtitle / Value Proposition */}
           <p className="mt-7 max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 font-normal leading-relaxed">
-            {headlineVariation === "reference" ? (
-              "OrbitOS unifies customer relationships, deals, tasks, and an autonomous AI copilot into one living workspace. Automate follow-through, detect stalled deals early, and move 10x faster."
-            ) : (
-              "DocuMind unifies enterprise multi-format parsing, local Tesseract OCR, hybrid vector RRF retrieval, and verifiable citations into one living workspace. Automate follow-through, detect stalled clauses early, and move 10x faster."
-            )}
+            DocuMind unifies enterprise multi-format parsing, local Tesseract OCR, hybrid vector RRF retrieval, and verifiable citations into one living workspace. Automate follow-through, detect stalled clauses early, and move 10x faster.
           </p>
 
           {/* Primary & Secondary Call to Actions */}
@@ -545,7 +502,7 @@ export function LandingPage({
           ========================================================================= */}
       <section id="demo-preview" className="py-16 bg-slate-50 dark:bg-[#0c111d] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="text-center max-w-3xl mx-auto mb-10">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 mb-3">
               <Cpu className="h-3.5 w-3.5" />
@@ -568,18 +525,16 @@ export function LandingPage({
                   setActiveInteractiveTab(idx);
                   setActiveCitationHighlight(null);
                 }}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
-                  activeInteractiveTab === idx
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
-                    : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${activeInteractiveTab === idx
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
+                  : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                  }`}
               >
                 <span>{scenario.title}</span>
-                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                  activeInteractiveTab === idx 
-                    ? "bg-blue-700 text-white" 
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-500"
-                }`}>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeInteractiveTab === idx
+                  ? "bg-blue-700 text-white"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-500"
+                  }`}>
                   {scenario.tag}
                 </span>
               </button>
@@ -588,7 +543,7 @@ export function LandingPage({
 
           {/* Mock Browser App Shell */}
           <div className="bg-white dark:bg-[#0f172a] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden transition-all">
-            
+
             {/* Browser Top Chrome */}
             <div className="bg-slate-100 dark:bg-slate-900 px-4 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -611,7 +566,7 @@ export function LandingPage({
 
             {/* 3-Panel Layout Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[460px]">
-              
+
               {/* PANEL 1: Left Document Scope (3 cols) */}
               <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 p-4 bg-slate-50/70 dark:bg-slate-950/40 space-y-3">
                 <div className="flex items-center justify-between">
@@ -651,8 +606,8 @@ export function LandingPage({
                     .filter((_, idx) => idx !== activeInteractiveTab)
                     .slice(0, 2)
                     .map((s) => (
-                      <div 
-                        key={s.file} 
+                      <div
+                        key={s.file}
                         className="p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-xs text-slate-600 dark:text-slate-400 flex items-center justify-between"
                       >
                         <span className="truncate max-w-[170px]">{s.file}</span>
@@ -664,7 +619,7 @@ export function LandingPage({
 
               {/* PANEL 2: Center Streaming AI Conversation (5 cols) */}
               <div className="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 p-5 flex flex-col justify-between space-y-4">
-                
+
                 {/* User Prompt */}
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -696,11 +651,10 @@ export function LandingPage({
                             <button
                               key={c.id}
                               onClick={() => setActiveCitationHighlight(c.id)}
-                              className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                                activeCitationHighlight === c.id
-                                  ? "bg-blue-600 text-white shadow-xs"
-                                  : "bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50"
-                              }`}
+                              className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${activeCitationHighlight === c.id
+                                ? "bg-blue-600 text-white shadow-xs"
+                                : "bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50"
+                                }`}
                             >
                               <span className="font-mono">[{c.id}]</span>
                               <span>{c.label}</span>
@@ -749,7 +703,7 @@ export function LandingPage({
 
                 {/* Dynamic Citation Inspector Card */}
                 {(() => {
-                  const citationToShow = activeCitationHighlight 
+                  const citationToShow = activeCitationHighlight
                     ? currentDemo.citations.find(c => c.id === activeCitationHighlight) || currentDemo.citations[0]
                     : currentDemo.citations[0];
 
@@ -770,7 +724,7 @@ export function LandingPage({
                         <div className="p-2.5 rounded bg-amber-50/80 dark:bg-amber-950/30 border-l-2 border-amber-500 text-[11px] font-mono text-slate-700 dark:text-slate-300 leading-relaxed italic">
                           "{citationToShow.quote}"
                         </div>
-                        
+
                         {/* Spatial Coordinate Bounding Box Display */}
                         <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
                           <span>BBox [x:{citationToShow.bbox.x}, y:{citationToShow.bbox.y}, w:{citationToShow.bbox.w}, h:{citationToShow.bbox.h}]</span>
@@ -856,7 +810,7 @@ export function LandingPage({
           ========================================================================= */}
       <section id="pipeline" className="py-20 bg-slate-50 dark:bg-[#090d16] border-t border-slate-200/80 dark:border-slate-800/80 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 mb-3">
               <Zap className="h-3.5 w-3.5" />
@@ -879,11 +833,10 @@ export function LandingPage({
                 <div
                   key={item.step}
                   onClick={() => setActivePipelineStep(idx)}
-                  className={`p-5 rounded-2xl border transition-all cursor-pointer relative ${
-                    isActive
-                      ? "border-blue-500 bg-white dark:bg-slate-900 shadow-xl shadow-blue-500/10 -translate-y-1"
-                      : "border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/40 hover:border-slate-300 dark:hover:border-slate-700"
-                  }`}
+                  className={`p-5 rounded-2xl border transition-all cursor-pointer relative ${isActive
+                    ? "border-blue-500 bg-white dark:bg-slate-900 shadow-xl shadow-blue-500/10 -translate-y-1"
+                    : "border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/40 hover:border-slate-300 dark:hover:border-slate-700"
+                    }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs font-mono font-bold text-blue-600 dark:text-blue-400">
@@ -916,7 +869,7 @@ export function LandingPage({
           FEATURES GRID (#features)
           ========================================================================= */}
       <section id="features" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 mb-3">
             <ShieldCheck className="h-3.5 w-3.5" />
@@ -931,7 +884,7 @@ export function LandingPage({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
+
           {/* Feature 1 */}
           <div className="p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:border-blue-500/50 transition-all group">
             <div className="h-11 w-11 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
@@ -1019,7 +972,7 @@ export function LandingPage({
           ========================================================================= */}
       <section id="why-documind" className="py-20 bg-slate-50 dark:bg-[#090d16] border-y border-slate-200/80 dark:border-slate-800/80 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 mb-3">
               <Activity className="h-3.5 w-3.5" />
@@ -1132,7 +1085,7 @@ export function LandingPage({
           PRICING & DEPLOYMENT TIERS (#pricing)
           ========================================================================= */}
       <section id="pricing" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 mb-3">
             <Zap className="h-3.5 w-3.5" />
@@ -1147,7 +1100,7 @@ export function LandingPage({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           {/* Tier 1 */}
           <div className="p-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all">
             <div>
@@ -1288,7 +1241,7 @@ export function LandingPage({
           ========================================================================= */}
       <section className="py-20 bg-slate-50 dark:bg-[#090d16] border-t border-slate-200/80 dark:border-slate-800/80 transition-colors">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
               Frequently Asked Questions
@@ -1302,7 +1255,7 @@ export function LandingPage({
             {faqs.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;
               return (
-                <div 
+                <div
                   key={faq.q}
                   className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden transition-all"
                 >
@@ -1369,7 +1322,7 @@ export function LandingPage({
       <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#06090e] py-12 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            
+
             <div className="flex items-center gap-3">
               <div className="h-8 w-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs">
                 <Layers className="h-4 w-4" />
@@ -1389,7 +1342,7 @@ export function LandingPage({
               <a href="#pipeline" className="hover:text-blue-600 transition-colors">Pipeline</a>
               <a href="#why-documind" className="hover:text-blue-600 transition-colors">Architecture</a>
               <a href="#pricing" className="hover:text-blue-600 transition-colors">Deployment</a>
-              <button 
+              <button
                 onClick={() => onOpenAuth(false)}
                 className="hover:text-blue-600 transition-colors cursor-pointer"
               >
