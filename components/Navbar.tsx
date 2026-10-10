@@ -17,6 +17,7 @@ interface NavbarProps {
   onToggleDarkMode: () => void;
   isMobileMenuOpen?: boolean;
   onToggleMobileMenu?: () => void;
+  onViewLanding?: () => void;
 }
 
 export function Navbar({
@@ -30,6 +31,7 @@ export function Navbar({
   onToggleDarkMode,
   isMobileMenuOpen = false,
   onToggleMobileMenu,
+  onViewLanding,
 }: NavbarProps) {
   const [wsDropdownOpen, setWsDropdownOpen] = useState(false);
 
@@ -114,6 +116,19 @@ export function Navbar({
           </span>
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
         </div>
+
+        {/* Landing Page Trigger */}
+        {onViewLanding && (
+          <button
+            type="button"
+            onClick={onViewLanding}
+            className="hidden sm:inline-flex items-center space-x-1.5 px-2.5 py-1 rounded border border-border bg-card hover:bg-muted text-xs font-medium text-foreground transition-colors cursor-pointer"
+            title="View Landing Page"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+            <span>Landing Page</span>
+          </button>
+        )}
 
         {/* Theme Toggle */}
         <button

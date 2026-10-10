@@ -2,14 +2,16 @@
 
 import React, { useState } from "react";
 import { api, User } from "@/lib/api";
-import { Mail, Lock, User as UserIcon, Sparkles } from "lucide-react";
+import { Mail, Lock, User as UserIcon, Sparkles, X } from "lucide-react";
 
 interface AuthModalProps {
   onSuccess: (user: User) => void;
+  onClose?: () => void;
+  initialRegister?: boolean;
 }
 
-export function AuthModal({ onSuccess }: AuthModalProps) {
-  const [isRegister, setIsRegister] = useState(false);
+export function AuthModal({ onSuccess, onClose, initialRegister = false }: AuthModalProps) {
+  const [isRegister, setIsRegister] = useState(initialRegister);
   const [email, setEmail] = useState("admin@docmind.local");
   const [password, setPassword] = useState("AdminDocuMind2026!");
   const [fullName, setFullName] = useState("");
@@ -46,8 +48,23 @@ export function AuthModal({ onSuccess }: AuthModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-card border border-border rounded-lg w-full max-w-sm p-6 shadow-lg space-y-5 animate-in fade-in duration-150">
+    <div 
+      className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs flex items-center justify-center p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget && onClose) onClose();
+      }}
+    >
+      <div className="relative bg-card border border-border rounded-lg w-full max-w-sm p-6 shadow-lg space-y-5 animate-in fade-in duration-150">
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute top-4 right-4 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+            aria-label="Close modal"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
         {/* Brand Header */}
         <div className="text-center space-y-1.5">
           <div className="h-9 w-9 rounded border border-border bg-foreground text-background mx-auto flex items-center justify-center font-bold text-sm tracking-wider">

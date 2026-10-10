@@ -14,6 +14,7 @@ import { TeamMembersView } from "@/components/TeamMembersView";
 import { AdminSettingsView } from "@/components/AdminSettingsView";
 import { DocumentDetailModal } from "@/components/DocumentDetailModal";
 import { AuthModal } from "@/components/AuthModal";
+import { LandingPage } from "@/components/LandingPage";
 
 export default function DocuMindApp() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -29,8 +30,13 @@ export default function DocuMindApp() {
   // App settings state (Default to Light theme)
   const [modelProfile, setModelProfile] = useState<string>("laptop");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const [initialLoading, setInitialLoading] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  // Landing page & Auth modal states
+  const [showLandingPage, setShowLandingPage] = useState<boolean>(true);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [authModalIsRegister, setAuthModalIsRegister] = useState<boolean>(false);
 
   // Sync theme with DOM and localStorage
   useEffect(() => {
@@ -68,20 +74,22 @@ export default function DocuMindApp() {
   }, []);
 
   const checkAuth = async () => {
-    setInitialLoading(true);
     const token = getAuthToken();
     if (token) {
+      setInitialLoading(true);
       try {
         const user = await api.getMe();
         setCurrentUser(user);
         await loadWorkspaces();
+        setShowLandingPage(false);
       } catch (err) {
         console.error("Session expired or invalid:", err);
         setAuthToken(null);
         setCurrentUser(null);
+      } finally {
+        setInitialLoading(false);
       }
     }
-    setInitialLoading(false);
   };
 
   const loadWorkspaces = async () => {
@@ -115,6 +123,7 @@ export default function DocuMindApp() {
   const handleAuthSuccess = (user: User) => {
     setCurrentUser(user);
     loadWorkspaces();
+    setShowLandingPage(false);
   };
 
   const handleLogout = () => {
@@ -123,6 +132,7 @@ export default function DocuMindApp() {
     setWorkspaces([]);
     setCurrentWorkspace(null);
     setDocuments([]);
+    setShowLandingPage(true);
   };
 
   const handleOpenDocById = (docId: string, pageNumber?: number | null) => {
@@ -133,16 +143,50 @@ export default function DocuMindApp() {
     }
   };
 
-  if (initialLoading) {
+
+
+  // Render Landing Page if not authenticated OR if user requested to view it
+  if (!currentUser || showLandingPage) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-background text-foreground text-xs font-semibold">
-        Initializing DocuMind AI Engine...
+      <div data-theme={isDarkMode ? "dark" : "light"} className={isDarkMode ? "dark" : ""}>
+        <LandingPage
+          onOpenAuth={(isRegister = false) => {
+            setAuthModalIsRegister(isRegister);
+            setIsAuthModalOpen(true);
+          }}
+          onEnterDemo={async () => {
+            if (currentUser) {
+              setShowLandingPage(false);
+              return;
+            }
+            try {
+              const params = new URLSearchParams();
+              params.append("username", "admin@docmind.local");
+              params.append("password", "AdminDocuMind2026!");
+              const res = await api.login(params);
+              handleAuthSuccess(res.user);
+            } catch (err) {
+              setAuthModalIsRegister(false);
+              setIsAuthModalOpen(true);
+            }
+          }}
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={handleToggleTheme}
+          currentUser={currentUser}
+          onEnterWorkspace={() => setShowLandingPage(false)}
+        />
+        {isAuthModalOpen && (
+          <AuthModal
+            initialRegister={authModalIsRegister}
+            onSuccess={(user) => {
+              handleAuthSuccess(user);
+              setIsAuthModalOpen(false);
+            }}
+            onClose={() => setIsAuthModalOpen(false)}
+          />
+        )}
       </div>
     );
-  }
-
-  if (!currentUser) {
-    return <AuthModal onSuccess={handleAuthSuccess} />;
   }
 
   return (
@@ -162,6 +206,7 @@ export default function DocuMindApp() {
         onToggleDarkMode={handleToggleTheme}
         isMobileMenuOpen={isMobileMenuOpen}
         onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        onViewLanding={() => setShowLandingPage(true)}
       />
 
       {/* Main Workspace Layout */}
